@@ -114,3 +114,15 @@ float snapValue(float value, float unit) {
 float3 tintHDR(float3 srcHDR, float3 tintRGB) {
     return max(max(srcHDR.r, srcHDR.g), srcHDR.b) * tintRGB;
 }
+
+// 符号付きfmod
+float fmodWithSign(float value, float mod) {
+    float sign = value < 0.0 ? -1.0 : 1.0;
+    return sign * fmod(abs(value), mod);
+}
+
+// 正の値に矯正されるfmod
+float fmodPositive(float value, float mod) {
+    float sign = value < 0.0 ? 1.0 : 0.0;
+    return sign * mod + fmod(value, mod);
+}

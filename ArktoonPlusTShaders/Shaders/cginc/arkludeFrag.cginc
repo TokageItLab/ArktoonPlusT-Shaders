@@ -32,16 +32,16 @@ float4 frag(VertexOutput i) : COLOR {
                 // 移動値の計算
                 float2 transformUVScrollPos = float2(transformUVScrollSpeedVector.x * transformUVTime, transformUVScrollSpeedVector.y * transformUVTime);
                 // 移動値とスクロール幅のモジュロを取って UV に加算
-                float transformUVScrollPosSignX = transformUVScrollPos.x < 0.0 ? -1.0 : 1.0;
-                float transformUVScrollPosSignY = transformUVScrollPos.y < 0.0 ? -1.0 : 1.0;
-                fixedUV[1].x += transformUVScrollPosSignX * fmod(abs(transformUVScrollPos.x), _TransformUVScrollMap_var.r);
-                fixedUV[1].y += transformUVScrollPosSignY * fmod(abs(transformUVScrollPos.y), _TransformUVScrollMap_var.g);
+                fixedUV[1].x += fmodWithSign(transformUVScrollPos.x, _TransformUVScrollMap_var.r);
+                fixedUV[1].y += fmodWithSign(transformUVScrollPos.y, _TransformUVScrollMap_var.g);
                 // 移動値が範囲を超えている場合一周させる
                 float _TransformUVScrollMap_var2 = UNITY_SAMPLE_TEX2D(_TransformUVScrollMap, TRANSFORM_TEX(fixedUV[1], _TransformUVScrollMap)).b;
                 if (_TransformUVScrollMap_var2 != _TransformUVScrollMap_var.b) {
                     fixedUV[1].x -= _TransformUVScrollMap_var.r * transformUVScrollVector.x;
                     fixedUV[1].y -= _TransformUVScrollMap_var.g * transformUVScrollVector.y;
                 }
+                fixedUV[1].x = fmodPositive(fixedUV[1].x, 1.0);
+                fixedUV[1].y = fmodPositive(fixedUV[1].y, 1.0);
             }
         }
         // Rotate
@@ -90,16 +90,16 @@ float4 frag(VertexOutput i) : COLOR {
                 // 移動値の計算
                 float2 transformUV2ScrollPos = float2(transformUV2ScrollSpeedVector.x * transformUVTime, transformUV2ScrollSpeedVector.y * transformUVTime);
                 // 移動値とスクロール幅のモジュロを取って UV に加算
-                float transformUV2ScrollPosSignX = transformUV2ScrollPos.x < 0.0 ? -1.0 : 1.0;
-                float transformUV2ScrollPosSignY = transformUV2ScrollPos.y < 0.0 ? -1.0 : 1.0;
-                fixedUV[2].x += transformUV2ScrollPosSignX * fmod(abs(transformUV2ScrollPos.x), _TransformUV2ScrollMap_var.r);
-                fixedUV[2].y += transformUV2ScrollPosSignY * fmod(abs(transformUV2ScrollPos.y), _TransformUV2ScrollMap_var.g);
+                fixedUV[2].x += fmodWithSign(transformUV2ScrollPos.x, _TransformUV2ScrollMap_var.r);
+                fixedUV[2].y += fmodWithSign(transformUV2ScrollPos.y, _TransformUV2ScrollMap_var.g);
                 // 移動値が範囲を超えている場合一周させる
                 float _TransformUV2ScrollMap_var2 = UNITY_SAMPLE_TEX2D(_TransformUV2ScrollMap, TRANSFORM_TEX(fixedUV[2], _TransformUV2ScrollMap)).b;
                 if (_TransformUV2ScrollMap_var2 != _TransformUV2ScrollMap_var.b) {
                     fixedUV[2].x -= _TransformUV2ScrollMap_var.r * transformUV2ScrollVector.x;
                     fixedUV[2].y -= _TransformUV2ScrollMap_var.g * transformUV2ScrollVector.y;
                 }
+                fixedUV[2].x = fmodPositive(fixedUV[2].x, 1.0);
+                fixedUV[2].y = fmodPositive(fixedUV[2].y, 1.0);
             }
         }
         // Rotate
@@ -580,8 +580,6 @@ float4 frag(VertexOutput i) : COLOR {
                 if (h1 == 1) {
                     currentEmissiveWaves1TraceMap_var = _EmissiveWaves1TraceMap_var.g;
                 }
-                // 桁数溢れでfmodがバグるので桁数をできるだけ制限
-                currentEmissiveWaves1TraceMap_var = ceilDecimal(currentEmissiveWaves1TraceMap_var, 3);
                 // 0は計算しない
                 if (_EmissiveWaves1TraceMap_var.b > 0.0) {
                     // バイアスにスムースを使うかどうかの真偽

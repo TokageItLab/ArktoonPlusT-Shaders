@@ -21,12 +21,6 @@ float getWave(int type, float time, sampler2D map) {
     }
 }
 
-// 小数点をできる限り切り捨て
-float ceilDecimal(float value, float power) {
-    float digit = pow(10.0, power);
-    return round(value * digit) / digit;
-}
-
 // UnisonMapの値の返却
 int floatToInt(float value, int divide) {
     if (value >= 1.0) {
