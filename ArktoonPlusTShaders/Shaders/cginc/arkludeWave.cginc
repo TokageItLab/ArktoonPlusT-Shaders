@@ -2,19 +2,19 @@
 float getWave(int type, float time, sampler2D map) {
     switch (type) {
         // コサイン波
-        case 1:
+        case 0:
             return cos(time * 2.0 * 3.14);
         // 三角波
-        case 2:
+        case 1:
             return abs(time - 0.5) * 4.0 - 1.0;
         // 矩形波
-        case 3:
+        case 2:
             return time >= 0.5 ? 1.0 : -1.0;
         // ノコギリ波
-        case 4:
+        case 3:
             return time * 2.0 - 1.0;
         // カスタム波
-        case 5:
+        case 4:
             return tex2Dlod(map, float4(time,0,0,0)).r * 2.0 - 1.0;
         default:
             return 1.0;

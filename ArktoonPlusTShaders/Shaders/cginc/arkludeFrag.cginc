@@ -510,8 +510,9 @@ float4 frag(VertexOutput i) : COLOR {
         // Tint
         if (_UseEmissiveWaves1Tint) {
             float3 _EmissiveWaves1TintAFOMask_var = UNITY_SAMPLE_TEX2D_SAMPLER(_EmissiveWaves1TintAFOMask, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_EmissiveWaves1TintAFOMaskUV], _EmissiveWaves1TintAFOMask)).rgb;
-            float emissiveWaves1TintAmount = _EmissiveWaves1TintAmount * _EmissiveWaves1TintAFOMask_var.r;
-            if (emissiveWaves1TintAmount > 0.0) {
+            // 適用度
+            float emissiveWaves1TintAmount_var = _EmissiveWaves1TintAmount * _EmissiveWaves1TintAFOMask_var.r;
+            if (emissiveWaves1TintAmount_var > 0.0) {
                 // 周波数
                 float emissiveWaves1TintFreq_var = _EmissiveWaves1TintFreq * _EmissiveWaves1TintAFOMask_var.g;
                 // マップの参照位置
@@ -543,7 +544,7 @@ float4 frag(VertexOutput i) : COLOR {
                         emissiveWaves1TintColor = _EmissiveWaves1TintColorC * _EmissiveWaves1TintMapC_var;
                         break;
                 }
-                _EmissiveWaves1Tex_var = lerp(_EmissiveWaves1Tex_var, tintHDR(_EmissiveWaves1Tex_var, emissiveWaves1TintColor), emissiveWaves1TintAmount);
+                _EmissiveWaves1Tex_var = lerp(_EmissiveWaves1Tex_var, tintHDR(_EmissiveWaves1Tex_var, emissiveWaves1TintColor), emissiveWaves1TintAmount_var);
             }
         }
 
@@ -672,10 +673,11 @@ float4 frag(VertexOutput i) : COLOR {
 
             // 波の形状
             int emissiveWaves1BlinkType_var = _EmissiveWaves1UseBlinkTypeMap ?
-                                              floatToInt(UNITY_SAMPLE_TEX2D_SAMPLER(_EmissiveWaves1BlinkTypeMap, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_EmissiveWaves1BlinkTypeMapUV], _EmissiveWaves1BlinkTypeMap)).r, 6) :
+                                              floatToInt(UNITY_SAMPLE_TEX2D_SAMPLER(_EmissiveWaves1BlinkTypeMap, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_EmissiveWaves1BlinkTypeMapUV], _EmissiveWaves1BlinkTypeMap)).r, 5) :
                                               _EmissiveWaves1BlinkType;
-            // 波の形状がNone以外
-            if (emissiveWaves1BlinkType_var != 0) {
+            // 適用度
+            float emissiveWaves1BlinkAmount_var = _EmissiveWaves1BlinkAmount * _EmissiveWaves1BlinkAFOMask_var.r;
+            if (emissiveWaves1BlinkAmount_var > 0.0) {
                 // 上下反転の真偽
                 float emissiveWaves1BlinkPowerInvert_bool = _EmissiveWaves1UseBlinkPowerInvertMap ?
                                                             UNITY_SAMPLE_TEX2D_SAMPLER(_EmissiveWaves1BlinkPowerInvertMap, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_EmissiveWaves1BlinkPowerInvertMapUV], _EmissiveWaves1BlinkPowerInvertMap)).r :
@@ -745,7 +747,6 @@ float4 frag(VertexOutput i) : COLOR {
                     emissiveWaves1Blink = 1.0 - emissiveWaves1Blink; 
                 }
                 // 適用度を計算
-                float emissiveWaves1BlinkAmount_var = _EmissiveWaves1BlinkAmount * _EmissiveWaves1BlinkAFOMask_var.r;
                 emissiveWaves1Blink = emissiveWaves1Blink * emissiveWaves1BlinkAmount_var + (1.0 - emissiveWaves1BlinkAmount_var);
             } else {
                 emissiveWaves1Blink = 1.0;

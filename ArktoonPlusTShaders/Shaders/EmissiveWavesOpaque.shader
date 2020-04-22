@@ -234,7 +234,7 @@ Shader "arktoon+T/_Extra/EmissiveWaves/Opaque" {
         [Enum(Default,0, Channel1,1, Channel2,2)]_EmissiveWaves1TraceUnisonFDOMaskUV("[EmissiveWaves Trace Unison] Freq Multi & Decay & Offset Mask UV", Int) = 0
 
         [ATSToggle]_UseEmissiveWaves1Blink ("[EmissiveWaves Blink] Use Blink", Int ) = 0
-        [Enum(None,0, Cos,1, Tri,2, Sqr,3, Saw,4, Custom,5)]_EmissiveWaves1BlinkType ("[EmissiveWaves Blink] Blink Type", Int) = 1
+        [Enum(Cos,0, Tri,1, Sqr,2, Saw,3, Custom,4)]_EmissiveWaves1BlinkType ("[EmissiveWaves Blink] Blink Type", Int) = 0
         [ATSToggle]_EmissiveWaves1UseBlinkTypeMap ("[EmissiveWaves Blink] Use Blink Type Map", Int) = 0
         _EmissiveWaves1BlinkTypeMap ("[EmissiveWaves Blink] Blink Type Map", 2D) = "black" {}
         [Enum(Default,0, Channel1,1, Channel2,2)]_EmissiveWaves1BlinkTypeMapUV("[EmissiveWaves Blink] Blink Type Map UV", Int) = 0
