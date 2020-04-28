@@ -32,6 +32,7 @@ Click [here](https://tokage.info/lab/?id=2) for more infomation. (Japanese)
 * Emission Mask in the Emission Texture's Alpha Channel
 * Gloss Color Texture
 * Reflection Color Texture
+* Gloss Metallic Mask
 
 ## License
 
