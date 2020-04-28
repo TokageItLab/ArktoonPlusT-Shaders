@@ -135,6 +135,9 @@ float4 frag(VertexOutput i) : COLOR {
 
     float3 lightDirection = normalize(lerp(_WorldSpaceLightPos0.xyz, _WorldSpaceLightPos0.xyz - i.posWorld.xyz,_WorldSpaceLightPos0.w));
     float3 lightColor = _LightColor0.rgb;
+    float _LightColorSaturationMask_var = UNITY_SAMPLE_TEX2D_SAMPLER(_LightColorSaturationMask, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_LightColorSaturationMaskUV], _LightColorSaturationMask));
+    float lightColorSaturation = _LightColorSaturation * _LightColorSaturationMask_var;
+    lightColor = CalculateHSV(lightColor,1.0,lightColorSaturation,1.0);
     float3 halfDirection = normalize(viewDirection+lightDirection);
     float3 cameraSpaceViewDir = mul((float3x3)unity_WorldToCamera, viewDirection);
     UNITY_LIGHT_ATTENUATION(attenuation,i, i.posWorld.xyz);
@@ -196,7 +199,9 @@ float4 frag(VertexOutput i) : COLOR {
 
     directContribution *= additionalContributionMultiplier;
     float _ShadowStrengthMask_var = tex2D(_ShadowStrengthMask, TRANSFORM_TEX(fixedUV[_ShadowStrengthMaskUV], _ShadowStrengthMask));
-    float3 finalLight = CalculateHSV(saturate(directContribution + ((1 - (_PointShadowStrength * _ShadowStrengthMask_var)) * attenuation)),1.0,_LightColorSaturation,1.0);
+
+    float3 finalLight = saturate(directContribution + ((1 - (_PointShadowStrength * _ShadowStrengthMask_var)) * attenuation));
+
     float3 coloredLight = saturate(lightColor*finalLight*_PointAddIntensity);
     float3 toonedMap = Diffuse * coloredLight;
 
@@ -219,7 +224,8 @@ float4 frag(VertexOutput i) : COLOR {
 
             float NdotL = saturate(dot( normalDirection, lightDirection ));
             float LdotH = saturate(dot(lightDirection, halfDirection));
-            float3 specularColor = _GlossPower;
+            float _GlossPowerMask_var = UNITY_SAMPLE_TEX2D_SAMPLER(_GlossPowerMask, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_GlossPowerMaskUV], _GlossPowerMask)).r;
+            float3 specularColor = _GlossPower * _GlossPowerMask_var;
             float specularMonochrome;
             float3 diffuseColor = Diffuse;
             diffuseColor = DiffuseAndSpecularFromMetallic( diffuseColor, specularColor, specularColor, specularMonochrome );
@@ -238,7 +244,7 @@ float4 frag(VertexOutput i) : COLOR {
                 specularPBL = 0.0;
             #endif
             specularPBL *= any(specularColor) ? 1.0 : 0.0;
-            float3 attenColor = attenuation * _LightColor0.xyz;
+            float3 attenColor = attenuation * lightColor.rgb;
             float3 directSpecular = attenColor*specularPBL*FresnelTerm(specularColor, LdotH);
             half grazingTerm = saturate( gloss + specularMonochrome );
             float3 _GlossTexture_var = UNITY_SAMPLE_TEX2D_SAMPLER(_GlossTexture, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_GlossTextureUV], _GlossTexture)).rgb;

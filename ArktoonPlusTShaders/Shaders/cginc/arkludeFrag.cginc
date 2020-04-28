@@ -132,6 +132,9 @@ float4 frag(VertexOutput i) : COLOR {
     float3 normalDirection = normalize(mul( normalLocal, tangentTransform )); // Perturbed normals
     float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz + float3(0, +0.0000000001, 0));
     float3 lightColor = _LightColor0.rgb;
+    float _LightColorSaturationMask_var = UNITY_SAMPLE_TEX2D_SAMPLER(_LightColorSaturationMask, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_LightColorSaturationMaskUV], _LightColorSaturationMask));
+    float lightColorSaturation = _LightColorSaturation * _LightColorSaturationMask_var;
+    lightColor = CalculateHSV(lightColor,1.0,lightColorSaturation,1.0);
     float3 halfDirection = normalize(viewDirection+lightDirection);
     float3 cameraSpaceViewDir = mul((float3x3)unity_WorldToCamera, viewDirection);
     #if !defined(SHADOWS_SCREEN)
@@ -247,12 +250,10 @@ float4 frag(VertexOutput i) : COLOR {
         float3 coloredLight_2 = max(tmpColoredLightFactorAttenuated.b ,tmpColoredLightFactorIndirect.b) * i.lightColor2;
         float3 coloredLight_3 = max(tmpColoredLightFactorAttenuated.a ,tmpColoredLightFactorIndirect.a) * i.lightColor3;
         coloredLight_sum = (coloredLight_0 + coloredLight_1 + coloredLight_2 + coloredLight_3) * _PointAddIntensity;
+        coloredLight_sum = CalculateHSV(coloredLight_sum,1.0,lightColorSaturation,1.0);
     }
 
     float3 finalLight = lerp(indirectLighting,directLighting,directContribution)+coloredLight_sum;
-
-    float _LightColorSaturationMask_var = UNITY_SAMPLE_TEX2D_SAMPLER(_LightColorSaturationMask, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_LightColorSaturationMaskUV], _LightColorSaturationMask));
-    float lightColorSaturation = _LightColorSaturation * _LightColorSaturationMask_var;
     
     // カスタム陰を使っている場合、directContributionや直前のfinalLightを使い、finalLightを上書きする
     float3 toonedMap = float3(0,0,0);
@@ -287,10 +288,8 @@ float4 frag(VertexOutput i) : COLOR {
         }
 
         finalLight = lerp(ShadeMap,directLighting,directContribution)+coloredLight_sum;
-        finalLight = CalculateHSV(finalLight,1.0,lightColorSaturation,1.0);
         toonedMap = lerp(ShadeMap,Diffuse*finalLight,finalLight);
     } else {
-        finalLight = CalculateHSV(finalLight,1.0,lightColorSaturation,1.0);
         toonedMap = Diffuse*finalLight;
     }
 
@@ -361,7 +360,8 @@ float4 frag(VertexOutput i) : COLOR {
             float specPow = exp2( gloss * 10.0+1.0);
             float NdotL = saturate(dot( normalDirection, lightDirection ));
             float LdotH = saturate(dot(lightDirection, halfDirection));
-            float3 specularColor = _GlossPower;
+            float _GlossPowerMask_var = UNITY_SAMPLE_TEX2D_SAMPLER(_GlossPowerMask, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_GlossPowerMaskUV], _GlossPowerMask)).r;
+            float3 specularColor = _GlossPower * _GlossPowerMask_var;
             float specularMonochrome;
             float3 diffuseColor = Diffuse;
             diffuseColor = DiffuseAndSpecularFromMetallic( diffuseColor, specularColor, specularColor, specularMonochrome );
@@ -379,7 +379,7 @@ float4 frag(VertexOutput i) : COLOR {
                 specularPBL = 0.0;
             #endif
             specularPBL *= any(specularColor) ? 1.0 : 0.0;
-            float3 attenColor = attenuation * _LightColor0.xyz;
+            float3 attenColor = attenuation * lightColor.rgb;
             float3 directSpecular = attenColor*specularPBL*FresnelTerm(specularColor, LdotH);
             half grazingTerm = saturate( gloss + specularMonochrome );
             float3 _GlossTexture_var = UNITY_SAMPLE_TEX2D_SAMPLER(_GlossTexture, REF_MAINTEX, TRANSFORM_TEX(fixedUV[_GlossTextureUV], _GlossTexture)).rgb;
@@ -424,7 +424,7 @@ float4 frag(VertexOutput i) : COLOR {
     }
     #endif
 
-    float3 finalcolor2 = toonedMap+ReflectionMap + specular;
+    float3 finalcolor2 = toonedMap + ReflectionMap + specular;
 
     // ShadeCapのブレンドモード
     if (_ShadowCapBlendMode == 0) { // Darken

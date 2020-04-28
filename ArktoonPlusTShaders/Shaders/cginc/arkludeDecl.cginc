@@ -68,8 +68,6 @@ uniform float _TransformUV2RotateSpeed;
 #   define REF_EMISSION2MAPUV _Emission2MapUV
 #   define REF_EMISSION2COLOR _Emission2Color
 #endif
-uniform float _LightColorSaturation;
-UNITY_DECLARE_TEX2D_NOSAMPLER(_LightColorSaturationMask); uniform float4 _LightColorSaturationMask_ST; uniform int _LightColorSaturationMaskUV;
 
 // Alpha Mask
 UNITY_DECLARE_TEX2D_NOSAMPLER(_AlphaMask); uniform float4 _AlphaMask_ST; uniform int _AlphaMaskUV;
@@ -91,6 +89,10 @@ uniform float _DoubleSidedBackfaceHueShiftFromBase;
 uniform float _DoubleSidedBackfaceSaturationFromBase;
 uniform float _DoubleSidedBackfaceValueFromBase;
 uniform float _DoubleSidedFlipBackfaceNormal;
+
+// Lighting
+uniform float _LightColorSaturation;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_LightColorSaturationMask); uniform float4 _LightColorSaturationMask_ST; uniform int _LightColorSaturationMaskUV;
 
 // Shadow
 uniform float _Shadowborder;
@@ -145,6 +147,7 @@ UNITY_DECLARE_TEX2D_NOSAMPLER(_GlossTexture); uniform float4 _GlossTexture_ST; u
 uniform float _GlossBlend;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_GlossBlendMask); uniform float4 _GlossBlendMask_ST; uniform int _GlossBlendMaskUV;
 uniform float _GlossPower;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_GlossPowerMask); uniform float4 _GlossPowerMask_ST; uniform int _GlossPowerMaskUV;
 uniform float _CutoutCutoutAdjust;
 
 // Point lights

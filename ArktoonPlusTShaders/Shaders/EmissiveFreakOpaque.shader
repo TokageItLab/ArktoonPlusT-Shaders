@@ -53,7 +53,7 @@ Shader "arktoon+T/_Extra/EmissiveFreak/Opaque" {
         _Emission2Map ("[Common] Emission2 map", 2D) = "white" {}
         [Enum(Default,0, Channel1,1, Channel2,2)]_Emission2MapUV("[Common] Emission2 map UV", Int) = 0
         [HDR]_Emission2Color ("[Common] Emission2 Color", Color) = (0,0,0,1)
-        _LightColorSaturation ("[Common] Light Color Saturation", Range(0,2)) = 1
+        _LightColorSaturation ("[Common] Light Color Saturation", Range(0,1)) = 1
         _LightColorSaturationMask ("[Common] Light Color Saturation Mask", 2D ) = "white" {}
         [Enum(Default,0, Channel1,1, Channel2,2)]_LightColorSaturationMaskUV("[Common] Light Color Saturation Mask UV", Int) = 0
         // Emission Parallax
@@ -118,6 +118,8 @@ Shader "arktoon+T/_Extra/EmissiveFreak/Opaque" {
         _GlossBlendMask ("[Gloss] Smoothness Mask", 2D) = "white" {}
         [Enum(Default,0, Channel1,1, Channel2,2)]_GlossBlendMaskUV("[Gloss] Smoothness Mask UV", Int) = 0
         _GlossPower ("[Gloss] Metallic", Range(0, 1)) = 0.5
+        _GlossPowerMask ("[Gloss] Metallic Mask", 2D) = "white" {}
+        [Enum(Default,0, Channel1,1, Channel2,2)]_GlossPowerMaskUV("[Gloss] Metallic Mask UV", Int) = 0
         // Outline
         [ATSToggle]_UseOutline ("[Outline] Enabled", Int) = 0
         _OutlineWidth ("[Outline] Width", Range(0, 20)) = 0.1

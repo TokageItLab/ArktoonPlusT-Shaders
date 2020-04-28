@@ -129,6 +129,8 @@ namespace ArktoonPlusTShaders
         MaterialProperty GlossBlendMask;
         MaterialProperty GlossBlendMaskUV;
         MaterialProperty GlossPower;
+        MaterialProperty GlossPowerMask;
+        MaterialProperty GlossPowerMaskUV;
         MaterialProperty UseOutline;
         MaterialProperty OutlineWidth;
         MaterialProperty OutlineMask;
@@ -491,6 +493,8 @@ namespace ArktoonPlusTShaders
             GlossBlendMask = FindProperty("_GlossBlendMask", props, false);
             GlossBlendMaskUV = FindProperty("_GlossBlendMaskUV", props, false);
             GlossPower = FindProperty("_GlossPower", props, false);
+            GlossPowerMask = FindProperty("_GlossPowerMask", props, false);
+            GlossPowerMaskUV = FindProperty("_GlossPowerMaskUV", props, false);
             UseOutline = FindProperty("_UseOutline", props, false);
             OutlineWidth = FindProperty("_OutlineWidth", props, false);
             OutlineMask = FindProperty("_OutlineMask", props, false);
@@ -826,18 +830,10 @@ namespace ArktoonPlusTShaders
                         }
                         if(isFade) materialEditor.ShaderProperty(ZWrite, "ZWrite");
                     });
-
-                    UIHelper.DrawWithGroup(() => {
-                        materialEditor.TexturePropertySingleLine(new GUIContent("Light Color Saturation & Mask", "Light Color Saturation and Mask Texture"), LightColorSaturationMask, LightColorSaturation);
-                        materialEditor.TextureScaleOffsetPropertyIndent(LightColorSaturationMask);
-                        EditorGUI.indentLevel++;
-                        materialEditor.ShaderProperty(LightColorSaturationMaskUV, "UV Channel");
-                        EditorGUI.indentLevel--;
-                    });
                 });
 
                 // Secondary Common
-                if(isStencilReaderDouble) {
+                if(isStencilReaderDouble){
                     UIHelper.ShurikenHeader("Secondary Common");
                     UIHelper.DrawWithGroup(() => {
                         materialEditor.TexturePropertySingleLine(new GUIContent("Main Texture", "Base Color Texture (RGB)"), BaseTextureSecondary, BaseColorSecondary);
@@ -888,6 +884,18 @@ namespace ArktoonPlusTShaders
                         materialEditor.ShaderProperty(CutoutCutoutAdjust, "Cutoff Adjust");
                     });
                 }
+
+                // Lighting
+                UIHelper.ShurikenHeader("Lighting");
+                UIHelper.DrawWithGroup(() => {
+                    UIHelper.DrawWithGroup(() => {
+                        materialEditor.TexturePropertySingleLine(new GUIContent("Light Color Saturation & Mask", "Light Color Saturation and Mask Texture"), LightColorSaturationMask, LightColorSaturation);
+                        materialEditor.TextureScaleOffsetPropertyIndent(LightColorSaturationMask);
+                        EditorGUI.indentLevel++;
+                        materialEditor.ShaderProperty(LightColorSaturationMaskUV, "UV Channel");
+                        EditorGUI.indentLevel--;
+                    });
+                });
 
                 // Shadow
                 UIHelper.ShurikenHeader("Shadow");
@@ -995,6 +1003,7 @@ namespace ArktoonPlusTShaders
                     UIHelper.DrawWithGroup(() => {
                         UIHelper.DrawWithGroup(() => {
                             materialEditor.TexturePropertySingleLine(new GUIContent("Gloss Color", "Gloss Color Texture (RGB)"), GlossTexture, GlossColor);
+                            materialEditor.TextureScaleOffsetPropertyIndent(GlossTexture);
                             EditorGUI.indentLevel++;
                             materialEditor.ShaderProperty(GlossTextureUV, "UV Channel");
                             EditorGUI.indentLevel--;
@@ -1006,7 +1015,13 @@ namespace ArktoonPlusTShaders
                             materialEditor.ShaderProperty(GlossBlendMaskUV, "UV Channel");
                             EditorGUI.indentLevel--;
                         });
-                        materialEditor.ShaderProperty(GlossPower, "Metallic");
+                        UIHelper.DrawWithGroup(() => {
+                            materialEditor.TexturePropertySingleLine(new GUIContent("Metallic & Mask", "Metallic and Mask Texture"), GlossPowerMask, GlossPower);
+                            materialEditor.TextureScaleOffsetPropertyIndent(GlossPowerMask);
+                            EditorGUI.indentLevel++;
+                            materialEditor.ShaderProperty(GlossPowerMaskUV, "UV Channel");
+                            EditorGUI.indentLevel--;
+                        });
                     });
                 }
 
@@ -1096,6 +1111,7 @@ namespace ArktoonPlusTShaders
                         var useProbe = UseReflectionProbe.floatValue;
                         UIHelper.DrawWithGroup(() => {
                             materialEditor.TexturePropertySingleLine(new GUIContent("Reflection Color", "Reflection Color Texture (RGB)"), ReflectionTexture, ReflectionColor);
+                            materialEditor.TextureScaleOffsetPropertyIndent(ReflectionTexture);
                             EditorGUI.indentLevel++;
                             materialEditor.ShaderProperty(ReflectionTextureUV, "UV Channel");
                             EditorGUI.indentLevel--;

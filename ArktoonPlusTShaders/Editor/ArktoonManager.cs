@@ -13,7 +13,7 @@ namespace ArktoonPlusTShaders
     public class ArktoonManager : MonoBehaviour
     {
         static UnityWebRequest www;
-        public static readonly string version = "1.0.1.0";
+        public static readonly string version = "1.1.0.0";
 
         public static readonly List<string> variations = new List<string>(){
                 "arktoon+T/Opaque",
