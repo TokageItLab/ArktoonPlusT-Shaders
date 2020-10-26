@@ -33,6 +33,7 @@ Click [here](https://tokage.info/lab/?id=2) for more information. (Japanese)
 * Gloss Color Texture
 * Reflection Color Texture
 * Gloss Metallic Mask
+* Render Queue Override
 
 ## License
 

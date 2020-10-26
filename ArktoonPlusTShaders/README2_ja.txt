@@ -38,6 +38,11 @@ v1.1.0.0
     * Gloss Color Texture と Reflection Color Texture の Tiling と Offset のパラメータが抜けていたので追加。
     * Light Color Saturation のマスクが上手く動いていなかったので修正。
 ----
+v1.2.0.0
+----
+* 機能追加
+    * Common に Render Queue の項目を追加。
+----
 
 また、改変部に関してもライセンスは MIT License を適用します。
 機能追加部分の詳細については https://github.com/TokageItLab/ArktoonPlusT-Shaders を参照して下さい。

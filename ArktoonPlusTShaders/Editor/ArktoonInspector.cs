@@ -830,6 +830,11 @@ namespace ArktoonPlusTShaders
                         }
                         if(isFade) materialEditor.ShaderProperty(ZWrite, "ZWrite");
                     });
+
+                    // Render Queue
+                    UIHelper.DrawWithGroup(() => {
+                        materialEditor.RenderQueueField();
+                    });
                 });
 
                 // Secondary Common
