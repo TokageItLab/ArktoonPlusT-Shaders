@@ -26,7 +26,7 @@ Click [here](https://tokage.info/lab/?id=2) for more information. (Japanese)
 
 ![Tint preview](https://raw.githubusercontent.com/TokageItLab/ArktoonPlusT-Shaders/master/Media/preview_tint.gif)
 
-## Other additional functions from the Arktoon
+## Other additional implementations from the Arktoon
 
 * Light Color Saturation
 * Emission Mask in the Emission Texture's Alpha Channel
