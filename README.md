@@ -1,6 +1,6 @@
 # ArktoonPlusT-Shaders
 
-Arktoon+T Shader is extended version of [Arktoon Shader](https://github.com/synqark/Arktoon-Shaders) and specialized in animating texture atlas. If you make some masks and maps, you can animate part of an image without separating material.
+Arktoon+T-Shaders is extended version of Arktoon-Shaders by synqark and specialized in animating texture atlas. If you make some masks and maps, you can animate part of an image without separating material.
 
 Click [here](https://tokage.info/lab/?id=2) for more information. (Japanese)
 
@@ -37,4 +37,4 @@ Click [here](https://tokage.info/lab/?id=2) for more information. (Japanese)
 
 ## License
 
-This repository is under MIT License. See LICENSE and LICENSE2.
+This repository is under MIT License. See LICENSE.
