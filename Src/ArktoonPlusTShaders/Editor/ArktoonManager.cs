@@ -1,3 +1,9 @@
+// Arktoon+T-Shaders
+// Copyright (c) 2020-2021 Tokage IT Lab.
+// Copyright (c) 2018 synqark
+// This code is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -13,7 +19,7 @@ namespace ArktoonPlusTShaders
     public class ArktoonManager : MonoBehaviour
     {
         static UnityWebRequest www;
-        public static readonly string version = "1.2.0.0";
+        public static readonly string version = "1.2.0.2";
 
         public static readonly List<string> variations = new List<string>(){
                 "arktoon+T/Opaque",

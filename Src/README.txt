@@ -7,6 +7,12 @@ https://docs.google.com/document/d/15qR1ixw7YO1vKqaJXp5ul3Yvsgvv2cWa3YlXM07iQlo/
 機能追加部分の詳細については https://github.com/TokageItLab/ArktoonPlusT-Shaders を参照して下さい。
 
 --------
+v1.2.0.2
+--------
+
+* コメント部分におけるライセンス表記の整理。
+
+--------
 v1.2.0.1
 --------
 

@@ -1,3 +1,9 @@
+// Arktoon+T-Shaders
+// Copyright (c) 2020-2021 Tokage IT Lab.
+// Copyright (c) 2018 synqark
+// This code is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
 uniform sampler2D _StencilMaskTex; uniform float4 _StencilMaskTex_ST; uniform int _StencilMaskTexUV;
 uniform float _StencilMaskAdjust;
 uniform float _StencilMaskAlphaDither;

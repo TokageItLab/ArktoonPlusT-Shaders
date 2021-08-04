@@ -1,3 +1,8 @@
+// Arktoon+T-Shaders
+// Copyright (c) 2020-2021 Tokage IT Lab.
+// Copyright (c) 2018 synqark
+// This code is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
 
 struct v2g
 {

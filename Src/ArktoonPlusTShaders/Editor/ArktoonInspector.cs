@@ -1,17 +1,15 @@
-﻿using UnityEditor;
+﻿// Arktoon+T-Shaders
+// Copyright (c) 2020-2021 Tokage IT Lab.
+// Copyright (c) 2018 synqark
+// This code is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 
-// Arktoon+T-Shaders
-// Copyright (c) 2020-2021 Tokage IT Lab.
-//
-// Arktoon-Shaders
-// Copyright (c) 2018 synqark
-//
-// This code is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
 namespace ArktoonPlusTShaders
 {
     public class ArktoonInspector : ShaderGUI
