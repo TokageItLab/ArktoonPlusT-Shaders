@@ -1670,7 +1670,7 @@ namespace ArktoonPlusTShaders
                 UIHelper.DrawWithGroupHorizontal(() => {
                     if(GUILayout.Button("How to use"))
                     {
-                        System.Diagnostics.Process.Start("https://tokage.info/lab/");
+                        System.Diagnostics.Process.Start("https://github.com/TokageItLab/ArktoonPlusT-Shaders/tree/master/Document");
                     }
                     if(GUILayout.Button("README.md"))
                     {
